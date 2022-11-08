@@ -30,3 +30,35 @@ module.exports.addPatient = async (req, res) => {
     }
 };
 
+module.exports.getAllPatients = async (req, res) => {
+    try {
+        const patients = await Patient.find({doctorId: "dinesh"});
+        return res.status(200).json({
+            success: true,
+            message: "Successfully got all patients",
+            data: patients
+        })
+    } catch(err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        })
+    }
+};
+
+module.exports.getPatient = async (req, res) => {
+    try {
+        const patient = await Patient.findOne({doctorId: "dinesh", _id: req.params.id});
+        return res.status(200).json({
+            success: true,
+            message: "Successfully got the patient",
+            data: patient
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        })
+    }
+}
+
