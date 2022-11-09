@@ -60,5 +60,21 @@ module.exports.getPatient = async (req, res) => {
             message: err.message,
         })
     }
-}
+};
+
+module.exports.editPatient = async (req, res) => {
+    try {
+        await Patient.findOneAndUpdate({doctorId: "dinesh", _id: req.params.id}, req.body);
+
+        return res.status(200).json({
+            success: true,
+            message: "Successfully updated the patient",
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        })
+    }
+};
 
