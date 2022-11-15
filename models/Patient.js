@@ -5,6 +5,9 @@ const Patient = new mongoose.Schema({
         type: String,
         required: true
     },
+    patientId: {
+        type: String,
+    },
     logo: {
         type: String,
     },
