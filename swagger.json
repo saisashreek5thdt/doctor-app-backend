@@ -2,8 +2,8 @@
 	"swagger": "2.0",
 	"info": {
 		"version": "1.0.0",
-		"title": "Vc tech phase 2 backend",
-		"description": "Vc tech phase 2 backend API",
+		"title": "Doctor App backend",
+		"description": "Doctor App backend API",
 		"license": {
 			"name": "MIT",
 			"url": "https://opensource.org/licenses/MIT"
@@ -22,27 +22,24 @@
 	"produces": ["application/json"],
 
 	"paths": {
-		"/api/auth/login": {
+		"/api/v1/doctors/add-patient": {
 			"post": {
-				"tags": ["Auth"],
-				"description": "login user in system",
+				"tags": ["Doctor"],
+				"summary": "Add a new patient",
 				"parameters": [
 					{
-						"name": "user",
+						"name": "patient",
 						"in": "body",
-						"description": "User logged in",
+						"description": "Patient is to be added",
 						"schema": {
-							"$ref": "#/definitions/loginBody"
+							"$ref": "#/definitions/Patient"
 						}
 					}
 				],
 				"produces": ["application/json"],
 				"responses": {
 					"200": {
-						"description": "New user is created",
-						"schema": {
-							"$ref": "#/definitions/loginResponse"
-						}
+						"description": "Patient added successfully"
 					}
 				}
 			}
@@ -2468,21 +2465,122 @@
 	},
 
 	"definitions": {
-		"Category": {
+		"Patient": {
 			"type": "object",
 			"properties": {
-				"_id": {
-					"type": "string",
-					"example": "123e12367uii",
-					"description": "Auto generated id by mongodb."
+				"doctorId": {
+					"type": "String",
+					"example": "6871298378217382112",
+					"description": "To make a reference to which doctor is adding the patient"
 				},
-				"title": {
-					"type": "string",
-					"example": "Category A",
-					"description": "Title of the Category."
+				"patientId": {
+					"type": "String",
+					"example": "DA-23",
+					"description": "Unique id for every patient"
+				},
+				"logo": {
+					"type": "String",
+					"example": "link",
+					"description": "public url of where the logo is stored"
+				},
+				"phone": {
+					"type": "Number",
+					"example": "8983937433",
+					"description": "Phone number of the patient",
+					"unique": "true"
+				},
+				"name": {
+					"type": "String",
+					"example": "John",
+					"description": "Patient name"
+				},
+				"email": {
+					"type": "String,",
+					"example": "example@gmail.com",
+					"description": "Patient mail id"
+				},
+				"dob": {
+					"type": "Date",
+					"example": "10-10-2010",
+					"description": "Patient DOB"
+				},
+				"gender": {
+					"type": "String",
+					"example": "Female",
+					"description": "Patient gender"
+				},
+				"height": {
+					"type": "Number",
+					"example": "160",
+					"description": "Patient height in cm"
+				},
+				"weight": {
+					"type": "Number",
+					"example": "160",
+					"description": "Patient height in cm"
+				},
+				"caretakers_name": {
+					"type": "String",
+					"example": "Jona",
+					"description": "Patient's caretakers name"
+				},
+				"caretakers_relation": {
+					"type": "String",
+					"example": "Wife",
+					"description": "Patient's and caretaker's relation"
+				},
+				"caretakers_phone": {
+					"type": "Number",
+					"example": "8792497834",
+					"description": "Patient's caretakers phone number"
+				},
+				"caretakers_time": {
+					"type": "String",
+					"example": "9:30",
+					"description": "Available time of caretaker"
+				},
+				"health_plan": {
+					"type": "String",
+					"example": "Cardiac Plan",
+					"description": "Health plan"
+				},
+				"health_plan_date": {
+					"type": "Date",
+					"example": "10-10-2020",
+					"description": "Health program date"
+				},
+				"team": {
+					"type": "String",
+					"example": "Team A",
+					"description": "Team name"
+				},
+				"amount": {
+					"type": "Number",
+					"example": "1500",
+					"description": "Amount to pay"
+				},
+				"payment_mode": {
+					"type": "String",
+					"example": "UPI",
+					"description": "Payment mode"
+				},
+				"payment_date": {
+					"type": "Date",
+					"example": "20-10-2020",
+					"description": "Expected date of paying"
+				},
+				"ref_id": {
+					"type": "String",
+					"example": "7387bhb32",
+					"description": "Payment reference Id"
+				},
+				"next_payment_date": {
+					"type":" Date",
+					"example": "10-10-2010",
+					"description": "Next payment date"
 				}
 			},
-			"required": ["title"]
+			"required": ["*"]
 		},
 		"QualityChecklistTemplate": {
 			"type": "object",
@@ -3537,23 +3635,6 @@
 				}
 			}
 		},
-		"reimbursement": {
-			"type": "object",
-			"properties": {
-				"_id": { "type": "id" },
-				"supervisorId": {
-					"type": "id of user"
-				},
-				"amount": {
-					"type": "number"
-				},
-				"reason": { "type": "String" },
-				"fileUrl": { "type": "String" },
-				"isPaid": { "type": "boolean" },
-				"isReceived": { "type": "boolean" },
-				"site_name": { "type": "String" },
-				"location": { "type": "String" }
-			}
-		}
+		
 	}
 }
