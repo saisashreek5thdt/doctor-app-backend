@@ -26,6 +26,12 @@ const connectDB = require('./db')
 
 connectDB();
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+// api documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
 app.get('/', (req, res, ) => {
     res.send('Backend of Health app is Working Fine.');
 });

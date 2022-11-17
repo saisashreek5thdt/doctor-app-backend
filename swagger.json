@@ -1,0 +1,3559 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Vc tech phase 2 backend",
+		"description": "Vc tech phase 2 backend API",
+		"license": {
+			"name": "MIT",
+			"url": "https://opensource.org/licenses/MIT"
+		}
+	},
+	"host": "localhost:5000",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "Users",
+			"description": "API for users in the system"
+		}
+	],
+	"schemes": ["http"],
+	"consumes": ["application/json"],
+	"produces": ["application/json"],
+
+	"paths": {
+		"/api/auth/login": {
+			"post": {
+				"tags": ["Auth"],
+				"description": "login user in system",
+				"parameters": [
+					{
+						"name": "user",
+						"in": "body",
+						"description": "User logged in",
+						"schema": {
+							"$ref": "#/definitions/loginBody"
+						}
+					}
+				],
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "New user is created",
+						"schema": {
+							"$ref": "#/definitions/loginResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/team/add-team": {
+			"post": {
+				"tags": ["Team"],
+				"summary": "Create a new team",
+				"parameters": [
+					{
+						"name": "team",
+						"in": "body",
+						"description": "Team to be added",
+						"schema": {
+							"$ref": "#/definitions/teamBody"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Team added successfully"
+					}
+				}
+			}
+		},
+		"/api/team/delete-team/:teamId": {
+			"delete": {
+				"tags": ["Team"],
+				"summary": "Delete a team",
+				"parameters": [
+					{
+						"name": "teamId",
+						"in": "path",
+						"description": "Team to be deleted"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Team deleted successfully"
+					}
+				}
+			}
+		},
+		"/api/team/update-team/:teamId": {
+			"put": {
+				"tags": ["Team"],
+				"summary": "Update a team",
+				"parameters": [
+					{
+						"name": "teamId",
+						"in": "path",
+						"description": "Team to be updated"
+					},
+					{
+						"name": "team",
+						"in": "body",
+						"description": "Team to be updated",
+						"schema": {
+							"$ref": "#/definitions/teamBody"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Team updated successfully"
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/add-site-update": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				}
+			],
+			"post": {
+				"summary": "site update",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Site update added",
+						"schema": {
+							"$ref": "#/definitions/siteUpdateResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/delete-site-update/:siteUpdateId": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "siteUpdateId",
+					"in": "path",
+					"required": true,
+					"description": "id of the siteupdate",
+					"type": "String"
+				}
+			],
+			"delete": {
+				"summary": "site update",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Site update deleted",
+						"schema": {
+							"$ref": "#/definitions/siteUpdateResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/get-site-update?date=:date ": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "date",
+					"in": "path",
+					"required": false,
+					"description": "date in yyyy-mm-dd format, if not provided, it will return the current days site update",
+					"type": "String"
+				}
+			],
+			"get": {
+				"summary": "site update",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Site update added",
+						"schema": {
+							"$ref": "#/definitions/siteUpdateResponses"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/add-project": {
+			"parameters": [
+				{
+					"name": "project",
+					"in": "body",
+					"description": "Team to be added",
+					"schema": {
+						"$ref": "#/definitions/projectBody"
+					}
+				}
+			],
+			"post": {
+				"summary": "project added",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Project added",
+						"schema": {
+							"$ref": "#/definitions/projectResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/add-team": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "team",
+					"in": "body",
+					"description": "Team to be added",
+					"schema": {
+						"$ref": "#/definitions/projectTeam"
+					}
+				}
+			],
+			"post": {
+				"summary": "team added",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Team added",
+						"schema": {
+							"$ref": "#/definitions/projectResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/show-projects": {
+			"get": {
+				"summary": "project fetched",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Project fetched",
+						"schema": {
+							"$ref": "#/definitions/projectResponses"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/get-project/:projectId": {
+			"get": {
+				"summary": "project fetched",
+				"tags": ["Projects"],
+				"parameters": [
+					{
+						"name": "projectId",
+						"in": "path",
+						"required": true,
+						"description": "id of the project",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Project fetched",
+						"schema": {
+							"$ref": "#/definitions/projectResponses"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/purchase-request": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "file",
+					"in": "body",
+					"required": false,
+					"description": "list of items",
+					"type": "String"
+				},
+				{
+					"name": "purchaseRequest",
+					"in": "body",
+					"description": "Purchase request to be added",
+					"schema": {
+						"$ref": "#/definitions/purchaseRequestBody"
+					}
+				}
+			],
+			"post": {
+				"summary": "Added a purchase request",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Added a purchase request",
+						"schema": {
+							"$ref": "#/definitions/purchaseResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/purchase-request?date=:date": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				}
+			],
+			"get": {
+				"summary": "Added a purchase request",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Fteched a purchase request",
+						"schema": {
+							"$ref": "#/definitions/purchaseResponses"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/purchase-request/:purchaseRequestId/process": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "purchaseRequestId",
+					"in": "path",
+					"required": true,
+					"description": "id of the purchase request",
+					"type": "String"
+				}
+			],
+			"put": {
+				"summary": "Processed a Purchase Request",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Processed a Purchase Request",
+						"schema": {
+							"$ref": "#/definitions/purchaseResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/purchase-request/:purchaseRequestId/add-delivery-date": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "purchaseRequestId",
+					"in": "path",
+					"required": true,
+					"description": "id of the purchase request",
+					"type": "String"
+				},
+				{
+					"name": "deliveryDate",
+					"in": "body",
+					"description": "Delivery date to be added",
+					"schema": {
+						"$ref": "#/definitions/deliveryDateBody"
+					}
+				}
+			],
+			"put": {
+				"summary": "Added Delivery Date",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Added Delivery Date",
+						"schema": {
+							"$ref": "#/definitions/purchaseResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/purchase-request/:purchaseRequestId/add-quality-check": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "purchaseRequestId",
+					"in": "path",
+					"required": true,
+					"description": "id of the purchase request",
+					"type": "String"
+				}
+			],
+			"put": {
+				"summary": "Added Quality Check",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Added Quality Check",
+						"schema": {
+							"$ref": "#/definitions/purchaseResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/purchase-request/:purchaseRequestId/complete": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "purchaseRequestId",
+					"in": "path",
+					"required": true,
+					"description": "id of the purchase request",
+					"type": "String"
+				}
+			],
+			"put": {
+				"summary": "Completed Purchase Request",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Completed Purchase Request",
+						"schema": {
+							"$ref": "#/definitions/purchaseResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/:projectId/purchase-request/:purchaseRequestId/delivered": {
+			"parameters": [
+				{
+					"name": "projectId",
+					"in": "path",
+					"required": true,
+					"description": "id of the project",
+					"type": "String"
+				},
+				{
+					"name": "purchaseRequestId",
+					"in": "path",
+					"required": true,
+					"description": "id of the purchase request",
+					"type": "String"
+				}
+			],
+			"put": {
+				"summary": "Delivery succesfull",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Delivery succesfull",
+						"schema": {
+							"$ref": "#/definitions/purchaseResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/purchase-request/get-material-details": {
+			"get": {
+				"summary": "Material details retrieved",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Material details retrieved",
+						"schema": {
+							"$ref": "#/definitions/materialDetailResponses"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/purchase-request/add-material-details": {
+			"parameters": [
+				{
+					"name": "materialDetails",
+					"in": "body",
+					"description": "Material details to be added",
+					"schema": {
+						"$ref": "#/definitions/materialDetailBody"
+					}
+				}
+			],
+			"post": {
+				"summary": "Material details added",
+				"tags": ["Projects"],
+				"responses": {
+					"201": {
+						"description": "Material details added",
+						"schema": {
+							"$ref": "#/definitions/materialDetailResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/purchase-request/edit-material-details/:id": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"description": "id of the material detail",
+					"type": "String"
+				},
+				{
+					"name": "materialDetails",
+					"in": "body",
+					"description": "Material details to be updated",
+					"schema": {
+						"$ref": "#/definitions/materialDetailBody"
+					}
+				}
+			],
+			"put": {
+				"summary": "Material details updated",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Material details updated",
+						"schema": {
+							"$ref": "#/definitions/materialDetailResponse"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/purchase-request/delete-material-details/:id": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"description": "id of the material detail",
+					"type": "String"
+				}
+			],
+			"delete": {
+				"summary": "Material details deleted",
+				"tags": ["Projects"],
+				"responses": {
+					"200": {
+						"description": "Material details deleted",
+						"schema": {
+							"$ref": "#/definitions/materialDetailResponse"
+						}
+					}
+				}
+			}
+		},
+		
+
+		"api/task-manager?status=:status": {
+			"get": {
+				"summary": "Get all tasks",
+				"tags": ["Task Manager"],
+				"responses": {
+					"200": {
+						"description": "Get all tasks",
+						"schema": {
+							"$ref": "#/definitions/taskResponse"
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Add a task",
+				"tags": ["Task Manager"],
+				"parameters": [
+					{
+						"name": "task",
+						"in": "body",
+						"description": "Task to be added",
+						"schema": {
+							"$ref": "#/definitions/taskBody"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Added a task",
+						"schema": {
+							"$ref": "#/definitions/taskResponse"
+						}
+					}
+				}
+			}
+		},
+		"api/task-manager/task-completed/:task_id": {
+			"put": {
+				"summary": "Task completed",
+				"tags": ["Task Manager"],
+				"parameters": [
+					{
+						"name": "task_id",
+						"in": "path",
+						"required": true,
+						"description": "id of the task",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Task completed",
+						"schema": {
+							"$ref": "#/definitions/taskResponse"
+						}
+					}
+				}
+			}
+		},
+		" api/task-manager/delete-task/:task_id": {
+			"delete": {
+				"summary": "Delete task",
+				"tags": ["Task Manager"],
+				"parameters": [
+					{
+						"name": "task_id",
+						"in": "path",
+						"required": true,
+						"description": "id of the task",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Task deleted"
+					}
+				}
+			}
+		},
+		"api/analytics": {
+			"get": {
+				"summary": "fetched analytics",
+				"tags": ["Analytics"],
+				"responses": {
+					"200": {
+						"description": "fetched analytics",
+						"schema": {
+							"$ref": "#/definitions/analytics"
+						}
+					}
+				}
+			}
+		},
+		"api/analytics/for-supervisor": {
+			"get": {
+				"summary": "fetched analytics for supervisor",
+				"tags": ["Analytics"],
+				"responses": {
+					"200": {
+						"description": "fetched specific analytics for supervisor in mobile app",
+						"schema": {
+							"$ref": "#/definitions/supervisor-analytics"
+						}
+					}
+				}
+			}
+		},
+		"api/analytics/for-site-update?date=yyyy-mm-dd&type=Morning or Evening or Weekend": {
+			"get": {
+				"summary": "fetched analytics of site update",
+				"tags": ["Analytics"],
+				"responses": {
+					"200": {
+						"description": "will get the analytics of site update if we provide date, will get that day data otherwise get current day data. if we provode type we get that type data otherwise all type",
+						"schema": {
+							"$ref": "#/definitions/site-update-analytics"
+						}
+					}
+				}
+			}
+		},
+		"api/analytics/for-site-update-avgdate=yyyy-mm-dd": {
+			"get": {
+				"summary": "fetched analytics of site update avg",
+				"tags": ["Analytics"],
+				"responses": {
+					"200": {
+						"description": "will get the avg analytics of site update if we provide date, will get that week data otherwise get current week data",
+						"schema": {
+							"$ref": "#/definitions/site-update-analytics-avg"
+						}
+					}
+				}
+			}
+		},
+		"/api/add-fcm-token": {
+			"post": {
+				"summary": "add the fcm token to store in data base",
+				"tags": ["FCM Tokens"],
+				"parameters": [
+					{
+						"name": "fcmToken",
+						"in": "body",
+						"required": true,
+						"description": "give the fcm token from front-end",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "FCM token saved"
+					}
+				}
+			}
+		},
+		"/api/web-notify/get-web-notify": {
+			"get": {
+				"summary": "get notification details for web-app",
+				"tags": ["Web Notify"],
+				"responses": {
+					"200": {
+						"message": "success",
+						"data": "an array of notification details",
+						"schema": {
+							"$ref": "#/definitions/web-notifications"
+						}
+					}
+				}
+			}
+		},
+		"/api/web-notify/has-web-notify": {
+			"get": {
+				"summary": "get last notification if the user not viewed the last one",
+				"tags": ["Web Notify"],
+				"responses": {
+					"200": {
+						"message": "success",
+						"schema": {
+							"$ref": "#/definitions/has-web-notification"
+						}
+					}
+				}
+			}
+		},
+		"/api/web-notify/update-view-list/": {
+			"put": {
+				"summary": "update notification viewed user list",
+				"tags": ["Web Notify"],
+				"parameters": [
+					{
+						"name": "notifyId",
+						"in": "body",
+						"required": false,
+						"description": "update view list using notification id",
+						"type": "String"
+					},
+					{
+						"name": "projectId",
+						"in": "body",
+						"required": false,
+						"description": "use when update view list using project id and type of notify",
+						"type": "String"
+					},
+					{
+						"name": "type",
+						"in": "body",
+						"required": false,
+						"description": "use when update view list using project id and type of notify",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"201": {
+						"message": "success"
+					}
+				}
+			}
+		},
+		"/api/client/login": {
+			"post": {
+				"summary": "to login in client-app",
+				"tags": ["Client-app"],
+				"parameters": [
+					{
+						"name": "email",
+						"in": "body",
+						"required": true,
+						"description": "email of client",
+						"type": "String"
+					},
+					{
+						"name": "password",
+						"in": "body",
+						"required": true,
+						"description": "phonenumber of client",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"200": {
+						"success": true,
+						"message": "Login successful",
+						"data": {
+							"token": "jwt token",
+							"userName": "username"
+						},
+						"schema": {
+							"$ref": "#/definitions/client-app-login"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/add-request": {
+			"post": {
+				"summary": "to add change update using client-app",
+				"tags": ["Client-app"],
+				"parameters": [
+					{
+						"name": "changeRequest",
+						"in": "body",
+						"required": true,
+						"description": "The change request from client",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"201": {
+						"success": "Success",
+						"message": "Request addeed Succesfully",
+						"schema": {
+							"$ref": "#/definitions/client-app-add-request"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/get-request": {
+			"get": {
+				"summary": "to get change update in client-app",
+				"tags": ["Client-app"],
+				"responses": {
+					"200": {
+						"success": "Success",
+						"message": "fetch change request",
+						"data": "array of change requests",
+						"schema": {
+							"$ref": "#/definitions/client-app-get-request"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/delete-request/:changeRequestId": {
+			"delete": {
+				"summary": "to delete a change update using client-app ( pass change request id as params )",
+				"tags": ["Client-app"],
+				"responses": {
+					"200": {
+						"success": "Success",
+						"message": "Change request deleted successfully",
+						"data": "Deleted change request",
+						"schema": {
+							"$ref": "#/definitions/client-app-delete-request"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/get-request/:projectId": {
+			"get": {
+				"summary": "to get change update in web-app",
+				"tags": ["Client-app"],
+				"responses": {
+					"200": {
+						"success": "Success",
+						"message": "fetch change request",
+						"data": "array of change requests",
+						"schema": {
+							"$ref": "#/definitions/client-app-get-request"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/add-remark/:id": {
+			"post": {
+				"summary": "to add change request remark using web-app",
+				"tags": ["Client-app"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "id of client change request",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"201": {
+						"success": "Success",
+						"message": "Remark addeed Succesfully",
+						"schema": {
+							"$ref": "#/definitions/client-app-add-remark"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/delete-remark/:id": {
+			"delete": {
+				"summary": "to delete a change update remark ( pass change request id as params )",
+				"tags": ["Client-app"],
+				"responses": {
+					"200": {
+						"success": "Success",
+						"message": "Remark deleted successfully",
+						"data": "Deleted remark",
+						"schema": {
+							"$ref": "#/definitions/client-app-delete-remark"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/acknowledge-remark/:id": {
+			"put": {
+				"summary": "to acknowledge remark using client-app",
+				"tags": ["Client-app"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "id of client change request",
+						"type": "String"
+					},
+					{
+						"name": "acknowledged",
+						"in": "body",
+						"description": "Acknowledged to be updated",
+						"schema": {
+							"$ref": "#/definitions/client-app-acknowledge-remark"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"success": "Success",
+						"message": "Remark successfully acknowledged",
+						"schema": {
+							"$ref": "#/definitions/client-app-acknowledge-remark-response"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/add-review/:id": {
+			"post": {
+				"summary": "to add review to change request remark using client-app",
+				"tags": ["Client-app"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "id of client change request",
+						"type": "String"
+					}
+				],
+				"responses": {
+					"201": {
+						"success": "Success",
+						"message": "Review addeed Succesfully",
+						"schema": {
+							"$ref": "#/definitions/client-app-add-review"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/reimbursement-request/:projectId/create-request": {
+			"post": {
+				"summary": "to add reimbursement for supervisor ( for mobile-app )",
+				"tags": ["reimbursement-request"],
+				"description": "add reimbursement in a project. this end point for supervisors only",
+				"parameters": [
+					{
+						"name": "amount",
+						"in": "body",
+						"description": "amount as reimbursement",
+						"required": true
+					},
+					{
+						"name": "reason",
+						"in": "body",
+						"required": true,
+						"description": "reason for reimbursement"
+					},
+					{
+						"name": "projectId",
+						"in": "path",
+						"required": true,
+						"description": "id of reimbursement"
+					},
+					{
+						"name": "file",
+						"in": "body",
+						"required": true,
+						"description": "upload the supporting document for the reimbursement"
+					}
+				],
+				"responses": {
+					"201": {
+						"success": true,
+						"message": "Reimbursement added Succesfully",
+						"data": "array of change requests",
+						"schema": {
+							"$ref": "#/definitions/reimbursement"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/reimbursement-request/:projectId/view-requests/": {
+			"get": {
+				"summary": "to get reimbursement by project",
+				"tags": ["reimbursement-request"],
+				"description": "to get reimbursement by project",
+				"responses": {
+					"200": {
+						"success": true,
+						"message": "Got the Reimbursement-Requests",
+						"data": "array of change requests",
+						"schema": {
+							"$ref": "#/definitions/reimbursement"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/reimbursement-request/view-requests/": {
+			"get": {
+				"summary": "to get reimbursement by supervisor",
+				"tags": ["reimbursement-request"],
+				"description": "to get reimbursement by supervisor",
+				"responses": {
+					"200": {
+						"success": true,
+						"message": "Got the Reimbursement-Requests",
+						"data": "array of change requests",
+						"schema": {
+							"$ref": "#/definitions/reimbursement"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/reimbursement-request/:requestId/confirm-payment": {
+			"put": {
+				"summary": "mark as paid ( for web )",
+				"tags": ["reimbursement-request"],
+				"description": "mark as paid",
+				"parameters": [
+					{
+						"name": "requestId",
+						"in": "path",
+						"description": "id of reimbursement",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"success": true,
+						"message": "The Payment is Done",
+						"data": null
+					}
+				}
+			}
+		},
+		"/api/projects/reimbursement-request/:requestId/confirm-received": {
+			"put": {
+				"summary": "mark as received ( for mobile app )",
+				"tags": ["reimbursement-request"],
+				"description": "mark as received",
+				"parameters": [
+					{
+						"name": "requestId",
+						"in": "path",
+						"description": "id of reimbursement",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"success": true,
+						"message": "The Payment is Received",
+						"data": null
+					}
+				}
+			}
+		},
+		"/api/projects/reimbursement-request/:projectId/completed-requests?date=YYYY-MM-DD": {
+			"get": {
+				"summary": "to get completed reimbursement by project",
+				"tags": ["reimbursement-request"],
+				"description": "to get completed reimbursement by project ( if provide date parameter, you will get request by date. if not provide date parameter you will get whole completed request)",
+				"responses": {
+					"200": {
+						"success": true,
+						"message": "Got the Completed Reimbursement-Requests",
+						"data": "array of change requests",
+						"schema": {
+							"$ref": "#/definitions/reimbursement"
+						}
+					}
+				}
+			}
+		},
+		"/api/projects/reimbursement-request/:requestId/delete-request": {
+			"delete": {
+				"summary": "to delete reimbursment ( for mobile-app )",
+				"tags": ["reimbursement-request"],
+				"description": "to delete reimbursment for supervisor",
+				"parameters": [
+					{
+						"name": "requestId",
+						"in": "path",
+						"description": "id of reimbursement",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"success": true,
+						"message": "Deleted Reimbursement-Request",
+						"data": null
+					}
+				}
+			}
+		},
+		"/api/client/feedback/:projectId/add-feedback": {
+			"post": {
+				"summary": "to add a feedback ( for mobile-app )",
+				"tags": ["feedback"],
+				"description": "to add a feedback for site engineer",
+				"parameters": [
+					{
+						"name": "projectId",
+						"in": "path",
+						"description": "id of project",
+						"required": true
+					},
+					{
+						"name": "messages",
+						"in": "body",
+						"description": "array of feedback messsages",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "message: feedback added"
+					}
+				}
+			}
+		},
+		"/api/client/feedback/:feedbackId/edit-feedback": {
+			"put": {
+				"summary": "to update a feedback ( for web-app )",
+				"tags": ["feedback"],
+				"description": "to update a feedback for admin",
+				"parameters": [
+					{
+						"name": "feedbackId",
+						"in": "path",
+						"description": "id of feedback",
+						"required": true
+					},
+					{
+						"name": "messages",
+						"in": "body",
+						"description": "array of feedback messsages",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "message: feedback updated"
+					}
+				}
+			}
+		},
+		"/api/client/feedback/:feedbackId/delete-feedback": {
+			"delete": {
+				"summary": "to delete a feedback ( for mobile-app )",
+				"tags": ["feedback"],
+				"description": "to delete a feedback for site engineer",
+				"parameters": [
+					{
+						"name": "feedbackId",
+						"in": "path",
+						"description": "id of feedback",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "message: feedback deleted"
+					}
+				}
+			}
+		},
+		"/api/client/feedback/:projectId/get-feedback": {
+			"get": {
+				"summary": "to list feedbacks ( common )",
+				"tags": ["feedback"],
+				"description": "to list feedbacks by project",
+				"parameters": [
+					{
+						"name": "projectId",
+						"in": "path",
+						"description": "id of feedback",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "array of feedbacks",
+						"schema": {
+							"$ref": "#/definitions/feedback"
+						}
+					}
+				}
+			}
+		},
+		"/api/client/feedback/:feedbackId/add-category/": {
+			"put": {
+				"summary": "add category to feedback ( web )",
+				"tags": ["feedback"],
+				"description": "add category to feedback ",
+				"parameters": [
+					{
+						"name": "feedbackId",
+						"in": "path",
+						"description": "id of feedback",
+						"required": true
+					},
+					{
+						"name": "categories",
+						"in": "body",
+						"description": "it is an array of object; each objects have 2 keys 1) id = id of element inside the messages array 2) category  [feedback, with-cost, without-cost] (allowed categories)",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "message: category added"
+					}
+				}
+			}
+		},
+		"/api/client/feedback/:feedbackId/add-remark/": {
+			"post": {
+				"summary": "to add remark ( mobile )",
+				"tags": ["feedback"],
+				"description": "to add remark",
+				"parameters": [
+					{
+						"name": "feedbackId",
+						"in": "path",
+						"description": "id of feedback object",
+						"required": true
+					},
+					{
+						"name": "remark",
+						"in": "body",
+						"description": "a remark message",
+						"required": true
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "message: remark added"
+					}
+				}
+			}
+		},
+		"/api/client/feedback/:feedbackId/:remarkId/delete-remark/": {
+			"delete": {
+				"summary": "to delete remark ( mobile )",
+				"tags": ["feedback"],
+				"description": "to delete remark",
+				"parameters": [
+					{
+						"name": "feedbackId",
+						"in": "path",
+						"description": "id of feedback object",
+						"required": true
+					},
+					{
+						"name": "remarkId",
+						"in": "path",
+						"description": "id of remark message",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "message: remark deleted"
+					}
+				}
+			}
+		},
+		"/api/client/feedback/:feedbackId/:messageId/update-status/:status": {
+			"put": {
+				"summary": "for client ( client - mobile )",
+				"tags": ["feedback"],
+				"description": "to add approved or rejected status by client",
+				"parameters": [
+					{
+						"name": "feedbackId",
+						"in": "path",
+						"description": "id of feedback object",
+						"required": true
+					},
+					{
+						"name": "messageId",
+						"in": "path",
+						"description": "id of message",
+						"required": true
+					},
+					{
+						"name": "status",
+						"in": "path",
+						"description": "status [approved, rejected]",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "message: status updated"
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/categories": {
+			"get": {
+				"tags": ["Quality Checklist Category"],
+				"summary": "get all avaialable quality checklist categories (admin web app, site engineer mobile app).",
+				"description": "Endpoint to get all quality checklist categories.",
+				"responses": {
+					"201": {
+						"description": "all quality checklist categories.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/Category"
+									}
+								},
+								"message": {
+									"type": "string",
+									"default": "all categories"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["Quality Checklist Category"],
+				"description": "Endpoint to create quality checklist category.",
+				"summary": "create new quality checklist category (admin web app).",
+				"parameters": [
+					{
+						"name": "title",
+						"type": "string",
+						"in": "body",
+						"description": "title of the category to create.",
+						"example": "Category A",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "create quality checklist category.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/Category"
+								},
+								"message": {
+									"type": "string",
+									"default": "category created"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/categories/:id": {
+			"put": {
+				"tags": ["Quality Checklist Category"],
+				"description": "Endpoint to update a specific quality checklist category.",
+				"summary": "update quality checklist category (admin web app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"in": "path",
+						"description": "id of the quality check list category to update.",
+						"required": "true"
+					},
+					{
+						"name": "title",
+						"type": "string",
+						"in": "body",
+						"description": "title of the category to update.",
+						"example": "Category A"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "quality checklist category with given id is updated.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/Category"
+								},
+								"message": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Quality Checklist Category"],
+				"description": "Endpoint to delete a specific quality checklist category.",
+				"summary": "delete quality checklist category (admin web app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"in": "path",
+						"description": "id of the specific quality check list category.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "quality checklist category deleted."
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/templates": {
+			"get": {
+				"tags": ["Quality Checklist Template"],
+				"description": "Endpoint to get all quality checklist templates under the category.",
+				"summary": "get all quality checklist templates (admin web app).",
+				"parameters": [
+					{
+						"name": "categoryId",
+						"type": "string",
+						"in": "query",
+						"description": "id of the category to fetch quality checklists from.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "all quality checklists under the given category.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/QualityChecklistTemplate"
+									}
+								},
+								"message": {
+									"type": "string",
+									"default": "all quality checklist templates under the given category."
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["Quality Checklist Template"],
+				"description": "Endpoint to create quality checklist template.",
+				"summary": "create new quality checklist template (admin web app).",
+				"parameters": [
+					{
+						"name": "categoryId",
+						"type": "string",
+						"in": "body",
+						"description": "id of the category to which the quality checklist belongs to.",
+						"required": "true"
+					},
+					{
+						"name": "title",
+						"type": "string",
+						"in": "body",
+						"description": "title of the quality checklist to create.",
+						"example": "Quality Checklist 1",
+						"required": "true"
+					},
+					{
+						"name": "items",
+						"type": "array",
+						"items": "string",
+						"in": "body",
+						"description": "items in the quality checklist template.",
+						"example": ["Item 1", "Item 2"],
+						"default": []
+					},
+					{
+						"name": "is_completed",
+						"type": "boolean",
+						"in": "body",
+						"default": "false",
+						"description": "whether this quality checklist template is completed."
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "quality checklist created.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/QualityChecklistTemplate"
+								},
+								"message": {
+									"type": "string",
+									"default": "category created"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/templates/completed": {
+			"get": {
+				"tags": ["Quality Checklist Template"],
+				"description": "Endpoint to get all completed quality checklist templates under the category.",
+				"summary": "get all completed quality checklist templates (site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "categoryId",
+						"type": "string",
+						"in": "query",
+						"description": "id of the category to fetch quality checklists from.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "all completed quality checklists under the given category.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/QualityChecklistTemplate"
+									}
+								},
+								"message": {
+									"type": "string",
+									"default": "all quality checklist templates under the given category."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/templates/:id": {
+			"get": {
+				"tags": ["Quality Checklist Template"],
+				"description": "Endpoint to get a specific quality checklist template.",
+				"summary": "get a specific quality checklist template (admin web app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"in": "path",
+						"description": "id of the quality checklist template.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "quality checklist template with the given id.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/QualityChecklistTemplate"
+								},
+								"message": {
+									"type": "string",
+									"default": "quality checklist template with the given id."
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": ["Quality Checklist Template"],
+				"description": "Endpoint to update quality checklist template.",
+				"summary": "update quality checklist template (admin web app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"in": "path",
+						"description": "id of the quality checklist template.",
+						"required": "true"
+					},
+					{
+						"name": "title",
+						"type": "string",
+						"in": "body",
+						"description": "updated title of the quality checklist.",
+						"example": "Quality Checklist 1"
+					},
+					{
+						"name": "items",
+						"type": "array",
+						"items": "string",
+						"in": "body",
+						"description": "updated items in the quality checklist template.",
+						"example": ["Item 1", "Item 2"],
+						"default": []
+					},
+					{
+						"name": "is_completed",
+						"type": "boolean",
+						"in": "body",
+						"default": "false",
+						"example": "false",
+						"description": "whether this quality checklist template is completed."
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "quality checklist updated.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/QualityChecklistTemplate"
+								},
+								"message": {
+									"type": "string",
+									"default": "category updated"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Quality Checklist Template"],
+				"description": "Endpoint to delete a specific quality checklist template.",
+				"summary": "delete quality checklist template (admin web app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"in": "path",
+						"description": "id of the specific quality check list template.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "quality checklist template deleted."
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/items": {
+			"get": {
+				"tags": ["Quality Checklist Item"],
+				"description": "Endpoint to get all quality checklist items under the given project.",
+				"summary": "get all quality checklist items by project (site-engineer mobile app).",
+				"parameters": [
+					{
+						"name": "projectId",
+						"type": "string",
+						"in": "query",
+						"description": "id of the project in which the quality checklist belongs to.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "quality checklist items under the given project.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/QualityChecklistItem"
+									}
+								},
+								"message": {
+									"type": "string",
+									"default": "quality checklist template with the given id."
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["Quality Checklist Item"],
+				"description": "Endpoint to cretae a quality checklist item with given template under the given project id.",
+				"summary": "cretae a quality checklist item (site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "projectId",
+						"type": "string",
+						"in": "body",
+						"description": "id of the project under which the quality check list is created.",
+						"required": "true"
+					},
+					{
+						"name": "templateId",
+						"type": "string",
+						"in": "body",
+						"description": "id of the quality checklist template.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "quality checklist created.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/QualityChecklistItem"
+								},
+								"message": {
+									"type": "string",
+									"default": "quality checklist item created"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/items/completed": {
+			"get": {
+				"tags": ["Quality Checklist Item"],
+				"description": "Endpoint to get all quality checklist items that are marked for review under the given project.",
+				"summary": "get all quality checklist items that are marked for review by project (admin web app).",
+				"parameters": [
+					{
+						"name": "projectId",
+						"type": "string",
+						"in": "query",
+						"description": "id of the project in which the quality checklist belongs to.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "quality checklist items that are marked for review under the given project.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/QualityChecklistItem"
+									}
+								},
+								"message": {
+									"type": "string",
+									"default": "all checklist items that are marked for review."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/items/:id": {
+			"get": {
+				"tags": ["Quality Checklist Item"],
+				"description": "Endpoint to get a quality checklist item with given id.",
+				"summary": "get a quality checklist item (site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"in": "path",
+						"description": "id of the quality checklist item.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "quality checklist item with id.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/QualityChecklistItem"
+								},
+								"message": {
+									"type": "string",
+									"default": "quality checklist item with the given id."
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": ["Quality Checklist Item"],
+				"description": "Endpoint to update a quality checklist item with given id.<br><br><font color='red'> WARNING: make sure to pass all existing items as well as new items when updating from site engineer app.</font>",
+				"summary": "update a quality checklist item (common).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"in": "path",
+						"description": "id of the quality checklist item to update.",
+						"required": "true"
+					},
+					{
+						"name": "status",
+						"type": "string",
+						"in": "body",
+						"enum": ["pending", "approved", "rejected"],
+						"description": "status of the checklist (from web)",
+						"default": "pending"
+					},
+					{
+						"name": "rejection_reason",
+						"in": "body",
+						"type": "string",
+						"description": "reason for rejection if checklist is rejected (from web )"
+					},
+					{
+						"name": "marked_for_review",
+						"in": "body",
+						"type": "boolean",
+						"default": "false",
+						"description": "whether the checklist is marked for review by admin"
+					},
+					{
+						"name": "items",
+						"in": "body",
+						"description": "array of object of items in a quality check list (from mobile-app)",
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"_id": {
+									"type": "string",
+									"description": "Auto generated id by mongodb."
+								},
+								"title": {
+									"type": "string"
+								},
+								"is_completed": {
+									"type": "string",
+									"enum": ["yes", "no", "N/A"],
+									"description": "whether the task is completed"
+								},
+								"remarks": {
+									"type": "string",
+									"default": "",
+									"description": "remark added by the site engineer"
+								},
+								"image_url": {
+									"type": "string",
+									"default": "",
+									"description": "url of the uploaded image by the site engineer"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "quality checklist item updated.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/QualityChecklistItem"
+								},
+								"message": {
+									"type": "string",
+									"default": "quality checklist item updated."
+								}
+							}
+						}
+					}
+				}
+			},
+
+			"delete": {
+				"tags": ["Quality Checklist Item"],
+				"description": "Endpoint to delete quality checklist item with given id.",
+				"summary": "delete quality checklist item (site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"in": "path",
+						"description": "id of the quality checklist item to delete.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "quality checklist item deleted."
+					}
+				}
+			}
+		},
+		"/api/databases/quality-checklists/items/:itemId/image": {
+			"post": {
+				"tags": ["Quality Checklist Item"],
+				"description": "Endpoint to upload image for quality checklist item and get the s3 public url.",
+				"summary": "upload image for quality checklist item (site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "itemId",
+						"type": "String",
+						"in": "path",
+						"description": "id of the item in quality check list",
+						"required": "true"
+					},
+					{
+						"name": "image file",
+						"type": "file",
+						"in": "body",
+						"description": "image file as the proof of quality checklist item completion.",
+						"required": "true"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "image uploaded.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "string",
+									"example": "https://vctech-phase2.s3.amazonaws.com/62e3a10b64a610afcf454b7a.jpg"
+								},
+								"message": {
+									"type": "string",
+									"default": "quality checklist item created"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"api/vendor": {
+			"get": {
+				"summary": "get vendor list",
+				"tags": ["vendor"],
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"description": "page no."
+					},
+					{
+						"name": "page_size",
+						"in": "query",
+						"required": false,
+						"description": "row in a page"
+					},
+					{
+						"name": "search",
+						"in": "query",
+						"required": false,
+						"description": "search by name"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "array of objects {name: name, labourCode: 1234, _id:242525}"
+					}
+				}
+			},
+			"post": {
+				"summary": "create vendor",
+				"tags": ["vendor"],
+				"parameters": [
+					{
+						"name": "name",
+						"in": "body",
+						"required": true,
+						"description": "name of vendor",
+						"type": "String"
+					},
+					{
+						"name": "labourCode",
+						"in": "body",
+						"required": true,
+						"description": "code of vendor",
+						"type": "number"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Vendor created"
+					}
+				}
+			}
+		},
+		"api/vendor/:id": {
+			"delete": {
+				"summary": "delete vendor data",
+				"tags": ["vendor"],
+				"responses": {
+					"200": {
+						"description": "vendor deleted"
+					}
+				}
+			},
+			"put": {
+				"summary": "update vendor data",
+				"tags": ["vendor"],
+				"parameters": [
+					{
+						"name": "name",
+						"in": "body",
+						"description": "name of vendor",
+						"type": "String"
+					},
+					{
+						"name": "labourCode",
+						"in": "body",
+						"description": "code of vendor",
+						"type": "number"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Vendor updated"
+					}
+				}
+			}
+		},
+		"/api/leave-request/": {
+			"post": {
+				"tags": ["Leave request"],
+				"description": "Endpoint to create leave request.",
+				"summary": "create new leave request (mobile app).",
+				"parameters": [
+					{
+						"name": "startDate",
+						"type": "string",
+						"required": "true",
+						"in": "body",
+						"description": "start of the leave date"
+					},
+					{
+						"name": "endDate",
+						"in": "body",
+						"required": "true",
+						"type": "string",
+						"description": "end of the leave date"
+					},
+					{
+						"name": "days",
+						"in": "body",
+						"required": "true",
+						"type": "number",
+						"description": "number of days"
+					},
+					{
+						"in": "body",
+						"name": "reason",
+						"required": "true",
+						"type": "string",
+						"description": "reason for leave"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "leave request created.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/LeaveRequest"
+								},
+								"message": {
+									"type": "string",
+									"default": "leave request created"
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"tags": ["Leave request"],
+				"description": "Endpoint to get all leave requests.",
+				"summary": "get all leave requests (admin web app).",
+				"responses": {
+					"200": {
+						"description": "all leave requests.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/LeaveRequest"
+									}
+								},
+								"message": {
+									"type": "string",
+									"default": "all leave requests."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/leave-request/:id": {
+			"put": {
+				"tags": ["Leave request"],
+				"description": "Endpoint to update leave request.",
+				"summary": "update leave request (admin web app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"required": "true",
+						"in": "path",
+						"description": "id of the leave request"
+					},
+					{
+						"name": "status",
+						"in": "body",
+						"required": "true",
+						"type": "string",
+						"description": "status of the leave request (approved/rejected)"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "leave request created.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/LeaveRequest"
+								},
+								"message": {
+									"type": "string",
+									"default": "leave request created"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Leave request"],
+				"description": "Endpoint to delete leave request.",
+				"summary": "delete leave request (admin web app, site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"required": "true",
+						"in": "path",
+						"description": "id of the leave request"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "meaasge: leave request deleted"
+					}
+				}
+			}
+		},
+		"/api/leave-request/me": {
+			"get": {
+				"tags": ["Leave request"],
+				"description": "Endpoint to get all leave requests of the user.",
+				"summary": "get all leave requests of the user (site engineer mobile app).",
+				"responses": {
+					"200": {
+						"description": "all leave requests.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/LeaveRequest"
+									}
+								},
+								"message": {
+									"type": "string",
+									"default": "all leave requests of the user."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/log-book/add-log": {
+			"post": {
+				"tags": ["Log Book"],
+				"description": "Endpoint to create log book entry.",
+				"summary": "create new log book entry (site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "projectId",
+						"type": "string",
+						"in": "query",
+						"description": "id of the project to add log book entry to.",
+						"required": "true"
+					},
+					{
+						"name": "visitorName",
+						"type": "string",
+						"required": "true",
+						"in": "body",
+						"description": "name of site visitor"
+					},
+					{
+						"name": "reason",
+						"in": "body",
+						"required": "true",
+						"type": "string",
+						"description": "reason for visit"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Log book entry successfully added.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"$ref": "#/definitions/LogBook"
+								},
+								"message": {
+									"type": "string",
+									"default": "Log book entry successfully added."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/log-book/get-log": {
+			"get": {
+				"tags": ["Log Book"],
+				"description": "Endpoint to get all log book entries.",
+				"summary": "get all log book entries (admin web app, site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "projectId",
+						"type": "string",
+						"required": "true",
+						"in": "query",
+						"description": "id of the project to get log book entries of."
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "all log book entries",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "boolean",
+									"default": "true"
+								},
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/LogBook"
+									}
+								},
+								"message": {
+									"type": "string",
+									"default": "All log book entries successfully retrieved."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/log-book/delete-log/:id": {
+			"delete": {
+				"tags": ["Log Book"],
+				"description": "Endpoint to delete log book entry.",
+				"summary": "delete log book entry (site engineer mobile app).",
+				"parameters": [
+					{
+						"name": "id",
+						"type": "string",
+						"required": "true",
+						"in": "path",
+						"description": "id of the log book entry"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "message: Log book entry deleted successfully."
+					}
+				}
+			}
+		}
+	},
+
+	"definitions": {
+		"Category": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string",
+					"example": "123e12367uii",
+					"description": "Auto generated id by mongodb."
+				},
+				"title": {
+					"type": "string",
+					"example": "Category A",
+					"description": "Title of the Category."
+				}
+			},
+			"required": ["title"]
+		},
+		"QualityChecklistTemplate": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string",
+					"description": "Auto generated id by mongodb."
+				},
+				"categoryId": {
+					"type": "string",
+					"description": "Id of the category in which this quality checklist template belongs to."
+				},
+				"title": {
+					"type": "string",
+					"description": "Title of the QualityChecklist."
+				},
+				"items": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"is_completed": {
+					"type": "boolean",
+					"default": "false",
+					"description": "Whether this QualityChecklistTemplate is completed."
+				}
+			},
+			"required": ["categoryId", "title"]
+		},
+		"QualityChecklistItem": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string",
+					"description": "Auto generated id by mongodb."
+				},
+				"projectId": {
+					"type": "string",
+					"description": "Id of the project in which this quality checklist item belongs to."
+				},
+				"title": {
+					"type": "string",
+					"description": "Title of the QualityChecklist."
+				},
+				"status": {
+					"type": "string",
+					"enum": ["pending", "approved", "rejected"],
+					"description": "status of the checklist",
+					"default": "pending"
+				},
+				"categoryName": {
+					"type": "string",
+					"description": "name of the quality checklist category"
+				},
+				"rejection_reason": {
+					"type": "string",
+					"default": "",
+					"description": "reason for rejection if checklist is rejected"
+				},
+				"items": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"_id": {
+								"type": "string",
+								"description": "Auto generated id by mongodb."
+							},
+							"title": {
+								"type": "string"
+							},
+							"is_completed": {
+								"type": "string",
+								"enum": ["yes", "no", "N/A", null],
+								"description": "whether the task is completed",
+								"default": null
+							},
+							"remarks": {
+								"type": "string",
+								"default": "",
+								"description": "remark added by the site engineer"
+							},
+							"image_url": {
+								"type": "string",
+								"default": "",
+								"description": "url of the uploaded image by the site engineer"
+							}
+						}
+					}
+				},
+				"createdAt": {
+					"type": "string",
+					"description": "created timestamp"
+				},
+				"updatedAt": {
+					"type": "string",
+					"description": "updated timestamp"
+				},
+				"marked_for_review": {
+					"type": "boolean",
+					"description": "whether the checklist is marked for review by admin",
+					"default": "false"
+				}
+			},
+			"required": ["projectId", "title"]
+		},
+		"LeaveRequest": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string",
+					"description": "Auto generated id by mongodb."
+				},
+				"userId": {
+					"type": "string",
+					"description": "Id of the user who created the leave request."
+				},
+				"userName": {
+					"type": "string",
+					"description": "Name of the user who created the leave request."
+				},
+				"status": {
+					"type": "string",
+					"enum": ["pending", "approved", "rejected"],
+					"description": "status of the leave request",
+					"default": "pending"
+				},
+
+				"startDate": {
+					"type": "string",
+					"description": "start of the leave date"
+				},
+				"endDate": {
+					"type": "string",
+					"description": "end of the leave date"
+				},
+				"days": {
+					"type": "number",
+					"description": "number of days"
+				},
+				"reason": {
+					"type": "string",
+					"description": "reason for leave"
+				}
+			}
+		},
+		"LogBook": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string",
+					"description": "Auto generated id by mongodb."
+				},
+				"visitorName": {
+					"type": "string",
+					"description": "Name of the site visitor."
+				},
+				"reason": {
+					"type": "string",
+					"description": "reason for visit"
+				},
+				"createdOn": {
+					"type": "string",
+					"description": "date and time of adding entry"
+				}
+			}
+		},
+		"feedback": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string"
+				},
+				"projectId": {
+					"type": "string"
+				},
+				"messages": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"_id": {
+								"type": "string"
+							},
+							"message": {
+								"type": "string"
+							},
+							"status": {
+								"type": "string"
+							},
+							"category": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"isEditable": { "type": "boolean" },
+				"remarks": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"_id": { "type": "string" },
+							"remark": { "type": "string" }
+						}
+					}
+				},
+				"createdAt": { "type": "String" }
+			}
+		},
+		"loginBody": {
+			"type": "object",
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			}
+		},
+		"web-notifications": {
+			"type": "object",
+			"properties": {
+				"projectId": {
+					"type": "id of project"
+				},
+				"userName": {
+					"type": "String"
+				},
+				"site_name": {
+					"type": "String"
+				},
+				"type": {
+					"type": "String"
+				},
+				"status": {
+					"type": "String"
+				}
+			}
+		},
+		"has-web-notification": {
+			"type": "object",
+			"properties": {
+				"hasNotify": {
+					"type": "boolean"
+				},
+				"notifyId": {
+					"type": "String"
+				}
+			}
+		},
+		"client-app-login": {
+			"type": "object",
+			"properties": {
+				"success": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "String"
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"token": {
+							"type": "String"
+						},
+						"userName": {
+							"type": "String"
+						}
+					}
+				}
+			}
+		},
+		"loginResponse": {
+			"required": ["name", "_id", "companies"],
+			"properties": {
+				"token": {
+					"type": "string"
+				},
+				"user": {
+					"type": "object",
+					"properties": {
+						"role": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"projectTeam": {
+			"type": "array",
+			"items": {
+				"type": "id of users"
+			}
+		},
+		"teamBody": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				},
+				"role": {
+					"type": "string"
+				},
+				"department": {
+					"type": "string"
+				}
+			}
+		},
+		"updateUser": {
+			"required": ["name", "companies"],
+			"properties": {
+				"isPublic": {
+					"type": "boolean"
+				},
+				"name": {
+					"type": "string"
+				},
+				"books": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string"
+							},
+							"amount": {
+								"type": "number"
+							}
+						}
+					}
+				},
+				"companies": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"Users": {
+			"type": "array",
+			"$ref": "#/definitions/User"
+		},
+		"siteUpdateResponse": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string"
+				},
+				"projectId": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				},
+				"vendor": {
+					"type": "string"
+				},
+				"work": {
+					"type": "string"
+				},
+				"labour_count": {
+					"type": "number"
+				},
+				"per_complete": {
+					"type": "number"
+				},
+				"per_planned_next": {
+					"type": "number"
+				},
+				"labour_count_planned": {
+					"type": "number"
+				},
+				"remark": {
+					"type": "string"
+				}
+			}
+		},
+		"siteUpdateResponses": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/siteUpdateResponse"
+			}
+		},
+		"projectBody": {
+			"type": "object",
+			"properties": {
+				"site_name": {
+					"type": "string"
+				},
+				"uid": {
+					"type": "String"
+				},
+				"location": {
+					"type": "string"
+				},
+				"size": {
+					"type": "number"
+				},
+				"team": {
+					"type": "array",
+					"items": {
+						"type": "id of user"
+					}
+				},
+				"labour_count": {
+					"type": "number"
+				}
+			}
+		},
+		"projectResponse": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string"
+				},
+				"site_name": {
+					"type": "string"
+				},
+				"uid": {
+					"type": "String"
+				},
+				"location": {
+					"type": "string"
+				},
+				"size": {
+					"type": "number"
+				},
+				"team": {
+					"type": "object",
+					"properties": {
+						"_id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				},
+				"labour_count": {
+					"type": "number"
+				},
+				"creator": {
+					"type": "string"
+				}
+			}
+		},
+		"projectResponses": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/projectResponse"
+			}
+		},
+		"purchaseResponse": {
+			"type": "object",
+			"properties": {
+				"projectId": {
+					"type": "string"
+				},
+				"uid": {
+					"type": "String"
+				},
+				"items": {
+					"type": "object",
+					"properties": {
+						"material": { "type": "String" },
+						"quantity": { "type": "String" }
+					}
+				},
+				"itemsFileUrl": { "type": "String" },
+				"fileUrl": { "type": "String" },
+				"requestDate": {
+					"type": "string"
+				},
+				"requiredDate": {
+					"type": "string"
+				},
+				"status": {
+					"type": "object",
+					"properties": {
+						"delivered": {
+							"type": "boolean",
+							"default": "false"
+						},
+						"qualityCheck": {
+							"type": "boolean",
+							"default": false
+						},
+						"processed": {
+							"type": "boolean",
+							"default": "false"
+						},
+						"deliveryDateCheck": {
+							"type": "boolean",
+							"default": "false"
+						},
+						"completed": {
+							"type": "boolean",
+							"default": "false"
+						}
+					}
+				},
+				"comments": {
+					"type": "string"
+				},
+				"deliveryDate": {
+					"type": "Date",
+					"default": "undefined"
+				}
+			}
+		},
+		"purchaseResponses": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/purchaseResponse"
+			}
+		},
+		"materialDetailResponses": {
+			"type": "object",
+			"properties": {
+				"materials": {
+					"type": "string array"
+				},
+				"units": {
+					"type": "string array"
+				},
+				"days": {
+					"type": "integer array"
+				},
+				"_id": {
+					"type": "string array"
+				}
+			}
+		},
+		"materialDetailResponse": {
+			"type": "object",
+			"properties": {
+				"materials": {
+					"type": "string"
+				},
+				"units": {
+					"type": "string"
+				},
+				"days": {
+					"type": 0
+				},
+				"_id": {
+					"type": "string"
+				}
+			}
+		},
+		"purchaseRequestBody": {
+			"type": "object",
+			"properties": {
+				"items": {
+					"type": "object",
+					"properties": {
+						"material": { "type": "String" },
+						"quantity": { "type": "String" }
+					}
+				},
+				"itemsFileUrl": { "type": "String" },
+				"requiredDate": {
+					"type": "Date"
+				},
+				"comments": {
+					"type": "string"
+				}
+			}
+		},
+		"materialDetailBody": {
+			"type": "object",
+			"properties": {
+				"material": {
+					"type": "string"
+				},
+				"unit": {
+					"type": "string"
+				},
+				"days": {
+					"type": 0
+				}
+			}
+		},
+		"deliveryDateBody": {
+			"type": "object",
+			"properties": {
+				"deliveryDate": {
+					"type": "Date"
+				}
+			}
+		},
+		"analytics": {
+			"type": "object",
+			"properties": {
+				"project_count": { "type": "number" },
+				"createdOn": { "type": "date" },
+				"active_sites": {
+					"type": "number"
+				},
+				"purchase_requests_today": {
+					"type": "number"
+				},
+				"most_active_project": {
+					"type": "string"
+				},
+				"least_active_project": {
+					"type": "string"
+				},
+				"labour_count": {
+					"type": "number"
+				}
+			}
+		},
+		"supervisor-analytics": {
+			"type": "object",
+			"properties": {
+				"status": { "type": "boolean" },
+				"message": { "type": "String" },
+				"assignedProjectCount": { "type": "number" },
+				"weekTotalLaboursCount": { "type": "number" },
+				"monthTotalLaboursCount": { "type": "number" },
+				"monthTotalPRCount": { "type": "number" },
+				"totalOverdueTasks": { "type": "number" },
+				"overallPerformance": { "type": "string" },
+				"monthTotalLabourCountByProject": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"siteName": { "type": "string" },
+							"count": { "type": "number" }
+						}
+					}
+				}
+			}
+		},
+		"site-update-analytics": {
+			"type": "object",
+			"properties": {
+				"status": { "type": "boolean" },
+				"message": { "type": "String" },
+				"siteUpdateList": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"type": { "type": "String" },
+							"supervisor": { "type": "String" },
+							"work": { "type": "String" },
+							"labourers": { "type": "number" },
+							"site": { "type": "String" }
+						}
+					}
+				},
+				"totalLabourers": {
+					"type": "number"
+				},
+				"avgBySupervisor": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": { "type": "String" },
+							"labour_count": { "type": "number" },
+							"site_updates": { "type": "number" },
+							"avg": { "type": "number" }
+						}
+					}
+				},
+				"avgBySiteName": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": { "type": "String" },
+							"labour_count": { "type": "number" },
+							"site_updates": { "type": "number" },
+							"avg": { "type": "number" }
+						}
+					}
+				}
+			}
+		},
+		"site-update-analytics-avg": {
+			"type": "object",
+			"properties": {
+				"status": { "type": "boolean" },
+				"message": { "type": "String" },
+				"avgBySupervisor": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": { "type": "String" },
+							"labour_count": { "type": "number" },
+							"site_updates": { "type": "number" },
+							"avg": { "type": "number" }
+						}
+					}
+				},
+				"avgBySiteName": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": { "type": "String" },
+							"labour_count": { "type": "number" },
+							"site_updates": { "type": "number" },
+							"avg": { "type": "number" }
+						}
+					}
+				}
+			}
+		},
+		"taskBody": {
+			"type": "object",
+			"properties": {
+				"projectId": {
+					"type": "id of project"
+				},
+				"description": {
+					"type": "string"
+				},
+				"type": {
+					"type": "Date"
+				},
+				"assignedTo": {
+					"type": "id of user"
+				},
+				"status": {
+					"type": "string"
+				},
+				"deadLine": {
+					"type": "object",
+					"properties": {
+						"date": {
+							"type": "date"
+						},
+						"time": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"taskResponse": {
+			"type": "object",
+			"properties": {
+				"_id": {
+					"type": "string"
+				},
+				"project": {
+					"type": "object",
+					"properties": {
+						"_id": {
+							"type": "string"
+						},
+						"site_name": {
+							"type": "string"
+						}
+					}
+				},
+				"description": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				},
+				"assignedTo": {
+					"type": "object",
+					"properties": {
+						"_id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				},
+				"status": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string"
+				},
+				"deadLine": {
+					"type": "object",
+					"properties": {
+						"date": {
+							"type": "string"
+						},
+						"time": {
+							"type": "string"
+						}
+					}
+				},
+				"comments": {
+					"type": "string"
+				},
+				"createdBy": {
+					"type": "object",
+					"properties": {
+						"_id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"client-app-add-request": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "String"
+				},
+				"message": {
+					"type": "String"
+				}
+			}
+		},
+		"client-app-get-request": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "String"
+				},
+				"message": {
+					"type": "String"
+				},
+				"data": {
+					"type": "array",
+					"items": {
+						"changeRequests": {
+							"type": "object",
+							"properties": {
+								"clientId": {
+									"type": "number"
+								},
+								"projectId": {
+									"type": "number"
+								},
+								"changeRequest": {
+									"type": "String"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"client-app-delete-request": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "String"
+				},
+				"message": {
+					"type": "String"
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"clientId": {
+							"type": "id of user"
+						},
+						"projectId": {
+							"type": "id of project"
+						},
+						"changeRequest": {
+							"type": "String"
+						},
+						"createdAt": {
+							"type": "Date"
+						},
+						"updatedAt": {
+							"type": "Date"
+						}
+					}
+				}
+			}
+		},
+		"client-app-add-remark": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"clientId": {
+							"type": "id of user"
+						},
+						"projectId": {
+							"type": "id of project"
+						},
+						"changeRequest": {
+							"type": "string"
+						},
+						"uid": {
+							"type": "uid of change request"
+						},
+						"deletable": {
+							"type": "boolean"
+						},
+						"remark": {
+							"type": "string"
+						},
+						"acknowledged": {
+							"type": "boolean"
+						},
+						"review": {
+							"type": "string"
+						},
+						"createdAt": {
+							"type": "Date"
+						},
+						"updatedAt": {
+							"type": "Date"
+						}
+					}
+				}
+			}
+		},
+		"client-app-delete-remark": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"clientId": {
+							"type": "id of user"
+						},
+						"projectId": {
+							"type": "id of project"
+						},
+						"changeRequest": {
+							"type": "string"
+						},
+						"uid": {
+							"type": "uid of change request"
+						},
+						"deletable": {
+							"type": "boolean"
+						},
+						"remark": {
+							"type": "string"
+						},
+						"acknowledged": {
+							"type": "boolean"
+						},
+						"review": {
+							"type": "string"
+						},
+						"createdAt": {
+							"type": "Date"
+						},
+						"updatedAt": {
+							"type": "Date"
+						}
+					}
+				}
+			}
+		},
+		"client-app-acknowledge-remark": {
+			"type": "object",
+			"properties": {
+				"acknowledged": {
+					"type": "boolean"
+				}
+			}
+		},
+		"client-app-acknowledge-remark-response": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				}
+			}
+		},
+		"client-app-add-review": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"clientId": {
+							"type": "id of user"
+						},
+						"projectId": {
+							"type": "id of project"
+						},
+						"changeRequest": {
+							"type": "string"
+						},
+						"uid": {
+							"type": "uid of change request"
+						},
+						"deletable": {
+							"type": "boolean"
+						},
+						"remark": {
+							"type": "string"
+						},
+						"acknowledged": {
+							"type": "boolean"
+						},
+						"review": {
+							"type": "string"
+						},
+						"createdAt": {
+							"type": "Date"
+						},
+						"updatedAt": {
+							"type": "Date"
+						}
+					}
+				}
+			}
+		},
+		"reimbursement": {
+			"type": "object",
+			"properties": {
+				"_id": { "type": "id" },
+				"supervisorId": {
+					"type": "id of user"
+				},
+				"amount": {
+					"type": "number"
+				},
+				"reason": { "type": "String" },
+				"fileUrl": { "type": "String" },
+				"isPaid": { "type": "boolean" },
+				"isReceived": { "type": "boolean" },
+				"site_name": { "type": "String" },
+				"location": { "type": "String" }
+			}
+		}
+	}
+}
