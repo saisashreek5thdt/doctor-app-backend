@@ -24,4 +24,21 @@ module.exports.addForm = async (req, res) => {
             message: err.message,
         })
     }
+};
+
+module.exports.getAll = async (req, res) => {
+    try {
+
+        return res.status(200).json({
+            success: true,
+            message: "Forms fetched successfully",
+            data: await Form.find()
+        })
+    } catch (err) {
+        console.log(err.message)
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        })
+    }
 }
