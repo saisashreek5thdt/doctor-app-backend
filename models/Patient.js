@@ -72,7 +72,9 @@ const Patient = new mongoose.Schema({
     },
     next_payment_date: {
         type: Date
-    }
+    },
+    otp: String,
+    otpExpiresIn: String
 })
 
 module.exports = mongoose.model('patient', Patient)

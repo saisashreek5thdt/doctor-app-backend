@@ -37,7 +37,7 @@ app.get('/', (req, res, ) => {
 });
 
 //Auth routes
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/v1/auth', require('./routes/auth'));
 
 app.use('/api/v1', require('./routes/index'))
 

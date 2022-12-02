@@ -12,8 +12,8 @@ const Presc = new mongoose.Schema({
     morning_dose: String,
     afternoon_dose: String,
     evening_dose: String,
-    frequency: Number,
-    duration: Number,
+    frequency: String,
+    duration: String,
     duration_days: Number,
     special_inst: String
 });
