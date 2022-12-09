@@ -1,4 +1,5 @@
 const Patient = require('../../models/Patient');
+const Doctor = require('../../models/Doctor')
 
 const { getPatientId } = require('../../utils/getPatientId');
 
