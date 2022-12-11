@@ -2,7 +2,9 @@ const Patient  = require('../models/Patient');
 
 const jwt = require('jsonwebtoken');
 
-var mailgun = require('mailgun-js')({apiKey: process.env.MAILGUN_SECRET, domain: process.env.MAILGUN_DOMAIN });
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 module.exports.login = async (req, res) => {
@@ -14,7 +16,7 @@ module.exports.login = async (req, res) => {
                 message: "Patient not found",
             })
         }
-        // console.log(patient)
+        console.log(patient)
         const otp = Math.floor(100000 + Math.random() * 900000); //6 digit integer otp
 
         patient.otp = otp;
@@ -35,26 +37,21 @@ module.exports.login = async (req, res) => {
         //     return res.status(500).json({ success: false, message: "OTP sending error"});
         // });
 
-        var data = {
-            from: 'Doctor App <info@iqcinternational.com>',
-            to: "muhammednabeeltkanr@gmail.com",
-            subject: 'Authentication Request for Doctor App',
-            text: `Hello ${patient.name},\n`+
+        const msg = {
+        to: patient.email,
+        from: 'Health Vriksh <contactus@healthvriksh.com>',
+        subject: 'Authentication Request for Doctor App',
+        text: `Hello ${patient.name},\n`+
             `Your OTP for Login access is - ${otp}\n\n`+
             `Thanks,\n`+
-            `Team KalpaVriksh`
+            `Team KalpaVriksh`,
         };
-      
-          await mailgun.messages().send(data).then(async (body) => {
-              console.log("mail send",body);
-              return res.status(200).json({
-                success: true,
-                message: "OTP had send to your mailid and phone number",
-              })
-          }).catch((err) => {
-              console.log(err);
-              return res.status(500).json({ success: false, message: "Mail sending error"});
-          });
+        await sgMail.send(msg);
+
+        return res.status(200).json({
+            success: true,
+            message: "OTP had send to your mailid and phone number",
+        })
     } catch (err) {
         console.log(err.message)
         return res.status(500).json({
