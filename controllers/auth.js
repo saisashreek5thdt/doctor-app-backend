@@ -95,7 +95,7 @@ module.exports.submitOtp = async (req, res) => {
         const payload = {
             user: {
               id: user.id,
-              type: "patient"
+              type: req.body.user
             }
         };
         jwt.sign(
