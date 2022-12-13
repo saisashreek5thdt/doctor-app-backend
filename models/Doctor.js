@@ -6,7 +6,9 @@ const Doctor = new mongoose.Schema({
     email: String,
     phone: Number,
     registration_no: String,
-    avatar: String
+    avatar: String,
+    otp: String,
+    otpExpiresIn: String
 })
 
 module.exports = mongoose.model('doctor', Doctor)
