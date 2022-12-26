@@ -73,6 +73,11 @@ const Patient = new mongoose.Schema({
     next_payment_date: {
         type: Date
     },
+    observations: [{
+        desc: {
+            type: String,
+        }
+    }],
     otp: String,
     otpExpiresIn: String
 })
