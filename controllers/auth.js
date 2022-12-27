@@ -4,6 +4,7 @@ const Doctor = require('../models/Doctor');
 const jwt = require('jsonwebtoken');
 
 const sgMail = require('@sendgrid/mail');
+const { AuthorizationDocumentInstance } = require('twilio/lib/rest/preview/hosted_numbers/authorizationDocument');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
@@ -15,6 +16,29 @@ module.exports.login = async (req, res) => {
             user = await Doctor.findOne({email: req.body.email})
         } else if(req.body.user == "patient") {
             user = await Patient.findOne({email: req.body.email})
+        } else if(req.body.user == "admin") {
+            if((req.body.email == "admin@doctorapp.in") && (req.body.password == "admin123")) {
+                const payload = {
+                    user: {
+                      id: "admin",
+                      type: "admin"
+                    }
+                };
+                return jwt.sign(
+                    payload,
+                    process.env.JWT_SECRET,
+                    { expiresIn: '1 year' },
+                    async (err, token) => {
+                      if (err) throw err;
+                      res.status(200).json({
+                        success: true,
+                        message: "Login successfull",
+                        token
+                      });
+                    }
+                );
+            }
+
         } else {
             return res.status(500).json({
                 success: false,

@@ -5,8 +5,8 @@ module.exports.addForm = async (req, res) => {
     try {
 
         const newForm  = new Form({
-            doctorId: "dinesh",
-            patientId: req.body.patientId, //req.user.id
+            doctorId: req.user.id,
+            patientId: req.body.patientId,
             question_title: req.body.question_title,
             questions: req.body.questions
         })
@@ -47,12 +47,12 @@ module.exports.getAll = async (req, res) => {
 module.exports.submitForm = async (req, res) => {
     try {
 
-        const form  = await Form.findOne({_id: req.body.formId, patientId: "ramu"})
+        const form  = await Form.findOne({_id: req.body.formId, patientId: req.user.id})
 
         if(form) {
             const newFormResponse  = new FormResponse({
-                doctorId: "dinesh",
-                patientId: "ramu", //req.user.id
+                doctorId: form.doctorId,
+                patientId: req.user.id,
                 formId: req.body.formId,
                 question: req.body.question,
                 answer: req.body.answer

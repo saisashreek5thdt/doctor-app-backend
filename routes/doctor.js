@@ -5,14 +5,16 @@ const doctor = require('../controllers/doctor');
 const dietChart = require('../controllers/diet-chart');
 const form = require('../controllers/form');
 
-router.post('/add-doctor', doctor.addDoctor)
-router.post('/add-patient', addPatient);
-router.get('/get-all-patients', getAllPatients);
-router.get('/patient/:id', getPatient);
-router.put('/edit-patient/:id', editPatient);
+const { authorize } = require("../middleware/auth");
 
-router.post('/add-diet-chart', dietChart.addDietChart);
+router.post('/add-doctor', authorize("admin"), doctor.addDoctor); //
+router.post('/add-patient', authorize("doctor"), addPatient);
+router.get('/get-all-patients', authorize("doctor"), getAllPatients);
+router.get('/patient/:id', authorize("doctor"), getPatient);
+router.put('/edit-patient/:id', authorize("doctor"), editPatient);
 
-router.post('/add-form', form.addForm);
+router.post('/add-diet-chart', authorize("doctor"), dietChart.addDietChart);
+
+router.post('/add-form', authorize("doctor"), form.addForm);
 
 module.exports = router;

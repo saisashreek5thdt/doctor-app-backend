@@ -14,7 +14,7 @@ module.exports.addPatient = async (req, res) => {
             })
         }
         const newPatient = new Patient({
-            doctorId: "dinesh",
+            doctorId: req.user.id,
             patientId: "DA-"+ await getPatientId(),
             ...req.body
         });
@@ -36,7 +36,7 @@ module.exports.addPatient = async (req, res) => {
 
 module.exports.getAllPatients = async (req, res) => {
     try {
-        const patients = await Patient.find({doctorId: "dinesh"});
+        const patients = await Patient.find({doctorId: req.user.id}).select(["patientId","name", "health_plan"]);
         return res.status(200).json({
             success: true,
             message: "Successfully got all patients",
@@ -52,7 +52,7 @@ module.exports.getAllPatients = async (req, res) => {
 
 module.exports.getPatient = async (req, res) => {
     try {
-        const patient = await Patient.findOne({doctorId: "dinesh", _id: req.params.id});
+        const patient = await Patient.findOne({doctorId: req.user.id, _id: req.params.id});
         return res.status(200).json({
             success: true,
             message: "Successfully got the patient",
@@ -68,7 +68,7 @@ module.exports.getPatient = async (req, res) => {
 
 module.exports.editPatient = async (req, res) => {
     try {
-        await Patient.findOneAndUpdate({doctorId: "dinesh", _id: req.params.id}, req.body);
+        await Patient.findOneAndUpdate({doctorId: req.user.id, _id: req.params.id}, req.body);
 
         return res.status(200).json({
             success: true,

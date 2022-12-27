@@ -4,7 +4,7 @@ module.exports.addDietChart = async (req, res) => {
     try {
 
         const newDiet  = new DietChart({
-            doctorId: "dinesh",
+            doctorId: req.user.id,
             calorie_lower: req.body.calorie_lower,
             calorie_upper: req.body.calorie_upper,
             ch_lower: req.body.ch_lower,

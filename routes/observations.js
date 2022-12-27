@@ -1,8 +1,10 @@
 const router = require("express").Router();
 
-const obs = require('../controllers/observations')
+const obs = require('../controllers/observations');
 
-router.post('/:id', obs.add);
-router.get('/:id', obs.getAll);
+const { authorize } = require("../middleware/auth");
+
+router.post('/:id', authorize("patient"),  obs.add);
+router.get('/:id', authorize(), obs.getAll);
 
 module.exports = router;

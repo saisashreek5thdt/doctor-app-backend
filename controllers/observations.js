@@ -1,16 +1,20 @@
 const Patient = require('../models/Patient');
 
+const { getFormatDate } = require('../utils/common');
+
 module.exports.add = async (req, res) => {
     try {
-        console.log(req.body);
-        const patient = await Patient.findById(req.params.id);
+        const patient = await Patient.findById(req.user.id);
         if(!patient) {
             return res.status(400).json({
                 success: false,
                 message: "no patient found",
             })
         }
-        patient.observations.push(req.body);
+        patient.observations.push({
+            desc:req.body.desc, 
+            createdOn: getFormatDate(new Date)
+        });
         await patient.save();
 
         return res.status(200).json({

@@ -76,7 +76,8 @@ const Patient = new mongoose.Schema({
     observations: [{
         desc: {
             type: String,
-        }
+        },
+        createdOn: Date,
     }],
     otp: String,
     otpExpiresIn: String

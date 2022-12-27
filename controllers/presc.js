@@ -5,7 +5,7 @@ const { getFormatDate } = require('../utils/common');
 module.exports.add = async (req, res) => {
     try {
         const newPresc  = new Presc({
-            doctorId: "dinesh",
+            doctorId: req.user.id,
             patientId: req.body.patientId,
             createdOn: getFormatDate(new Date),
             medicine_type: req.body.medicine_type,
