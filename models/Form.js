@@ -26,9 +26,17 @@ const FormSchema = new mongoose.Schema({
             },
             choise4: {
                 type: String,
-            }
-        }
-    ]
+            },
+            answered: {
+                type: Boolean,
+                default: false 
+            },
+            answer: [{
+                type: String,
+                required: true
+            }]
+        },
+    ],
 })
 
 module.exports = mongoose.model('form', FormSchema)

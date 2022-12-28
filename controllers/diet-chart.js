@@ -29,4 +29,21 @@ module.exports.addDietChart = async (req, res) => {
             message: err.message,
         })
     }
-}
+};
+
+// module.exports.getBypatient = async (req, res) => {
+//     try {
+//         const dietCharts  = await DietChart.find({ doctorId: req.user.id, patientId: req.params.id})
+//         return res.status(200).json({
+//             success: true,
+//             message: "diet charts fetched successfully",
+//             data: dietCharts
+//         })
+//     } catch (err) {
+//         console.log(err.message)
+//         return res.status(500).json({
+//             success: false,
+//             message: err.message,
+//         })
+//     }
+// }

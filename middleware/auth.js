@@ -3,8 +3,6 @@ const jwt = require("jsonwebtoken");
 const Patient  = require('../models/Patient');
 const Doctor = require('../models/Doctor');
 
-
-
 module.exports.authorize = (role = "") => {
 
   return (req, res, next) => {
@@ -33,6 +31,7 @@ module.exports.authorize = (role = "") => {
                 ["-password", "-observations" ]
               );
               req.user = userDetail;
+              req.user.type = decoded.user.type
               next();
             } else if( role == "doctor") {
               const isValid = await Doctor.findById(decoded.user.id);
@@ -48,6 +47,7 @@ module.exports.authorize = (role = "") => {
                 ["-password", "-observations" ]
               );
               req.user = userDetail;
+              req.user.type = decoded.user.type
               next();
             } else if(role == "admin") {
                 if (!(decoded.user.type == "admin")) {
@@ -58,6 +58,7 @@ module.exports.authorize = (role = "") => {
                   });
                 }
                 req.user = { id: "admin" };
+                req.user.type = decoded.user.type
                 next();
             } else {
               if(decoded.user.type == "patient") {
@@ -73,6 +74,7 @@ module.exports.authorize = (role = "") => {
                   ["-password", "-observations" ]
                 );
                 req.user = userDetail;
+                req.user.type = decoded.user.type
                 next();
               } else if( decoded.user.type == "doctor") {
                 const isValid = await Doctor.findById(decoded.user.id);
@@ -88,6 +90,7 @@ module.exports.authorize = (role = "") => {
                   ["-password", "-observations" ]
                 );
                 req.user = userDetail;
+                req.user.type = decoded.user.type
                 next();
               }
             }

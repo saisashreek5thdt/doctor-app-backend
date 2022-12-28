@@ -5,7 +5,7 @@ const { getFormatDate } = require('../utils/common');
 module.exports.create = async (req, res) => {
     try {
         const newData = new Appointment({
-            patientId: req.user.id,
+            patientId: req.user.patientId,
             doctorId: req.body.doctorId,
             date: getFormatDate(req.body.date),
         });

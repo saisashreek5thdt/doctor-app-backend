@@ -6,6 +6,6 @@ const { authorize } = require("../middleware/auth");
 
 router.post('/create', authorize("patient"), appointment.create);
 router.get('/get-all/:date', authorize("doctor"), appointment.getWithDate)
-router.get('/get-all', authorize("patient"), appointment.getAll)
+router.get('/get-all', authorize(), appointment.getAll)
 
 module.exports = router;

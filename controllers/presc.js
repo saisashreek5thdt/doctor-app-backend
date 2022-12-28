@@ -37,10 +37,53 @@ module.exports.add = async (req, res) => {
 
 module.exports.getAll = async (req, res) => {
     try {
+        let presc = []
+
+        if(req.user.type == "patient") {
+            presc = await Presc.find({ patientId: req.user.patientId });
+        } else if(req.user.type == "doctor") {
+            presc = await Presc.find({doctors: req.user.id});
+        } else {
+            presc = await Presc.find();
+        }
         return res.status(200).json({
             success: true,
             message: "Prescriptions fetched successfully",
-            data: await Presc.find()
+            data: presc
+        })
+    } catch (err) {
+        console.log(err.message)
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        })
+    }
+};
+
+module.exports.getBypatient = async (req, res) => {
+    try {
+        const prescs  = await Presc.find({ doctorId: req.user.id, patientId: req.params.id})
+        return res.status(200).json({
+            success: true,
+            message: "Prescriptions fetched successfully",
+            data: prescs
+        })
+    } catch (err) {
+        console.log(err.message)
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        })
+    }
+};
+
+module.exports.getLatest = async (req, res) => {
+    try {
+        const prescs  = await Presc.findOne({patientId: req.user.patientId}).sort({"_id": -1});
+        return res.status(200).json({
+            success: true,
+            message: "Prescriptions fetched successfully",
+            data: prescs
         })
     } catch (err) {
         console.log(err.message)

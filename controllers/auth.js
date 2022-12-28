@@ -37,6 +37,11 @@ module.exports.login = async (req, res) => {
                       });
                     }
                 );
+            } else {
+                res.status(401).json({
+                    success: false,
+                    message: "invalid credentials"
+                  });
             }
 
         } else {
