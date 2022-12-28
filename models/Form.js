@@ -37,6 +37,10 @@ const FormSchema = new mongoose.Schema({
             }]
         },
     ],
+    status: {
+        type: String,
+        default: "Active" //De-Active
+    },
 })
 
 module.exports = mongoose.model('form', FormSchema)

@@ -7,6 +7,11 @@ const Doctor = new mongoose.Schema({
     phone: Number,
     registration_no: String,
     avatar: String,
+    status: {
+        type: String,
+        default: "Active" //De-Active
+    },
+    createdOn: Date,
     otp: String,
     otpExpiresIn: String
 })

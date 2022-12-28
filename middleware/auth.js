@@ -92,9 +92,13 @@ module.exports.authorize = (role = "") => {
                 req.user = userDetail;
                 req.user.type = decoded.user.type
                 next();
+              } else if( decoded.user.type == "admin" ) {
+                req.user = {id: "admin"};
+                req.user.type = decoded.user.type
+                next();
               }
             }
-        ``})
+        })
         } else {
           return res.status(401).json({
             success: false,
