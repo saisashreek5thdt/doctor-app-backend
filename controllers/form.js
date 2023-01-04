@@ -5,7 +5,7 @@ module.exports.addForm = async (req, res) => {
 
         const newForm  = new Form({
             doctorId: req.user.id,
-            question_title: req.body.question_title,
+            form_title: req.body.form_title,
             questions: req.body.questions
         })
 

@@ -6,13 +6,13 @@ const FormSchema = new mongoose.Schema({
         required: true
     },
     patientId: String,
-    question_title: String,
+    form_title: String,
     questions: [
         {
             type: {
                 type: String,
             },
-            question: {
+            question_title: {
                 type: String,
             },
             choise1: {
