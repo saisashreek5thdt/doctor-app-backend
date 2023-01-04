@@ -33,7 +33,7 @@ module.exports.add = async (req, res) => {
 
 module.exports.getAll = async (req, res) => {
     try {
-        const patient = await Patient.findById(req.params.id);
+        const patient = await Patient.findById(req.user.id);
         if(!patient) {
             return res.status(400).json({
                 success: false,
