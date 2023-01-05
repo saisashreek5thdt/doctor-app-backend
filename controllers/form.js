@@ -35,6 +35,10 @@ module.exports.getAll = async (req, res) => {
             forms = await Form.find({doctorId: req.user.id});
         } else if(req.user.type == "admin") {
             forms = await Form.find();
+        } else if(req.user.type == "patient") {
+            forms = await Form.find({
+                doctorId: {$in: req.user.doctors}
+            });
         }
 
         return res.status(200).json({

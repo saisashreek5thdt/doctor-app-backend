@@ -5,7 +5,6 @@ const FormSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    patientId: String,
     form_title: String,
     questions: [
         {

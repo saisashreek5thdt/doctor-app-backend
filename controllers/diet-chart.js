@@ -58,8 +58,7 @@ module.exports.getAll = async (req, res) => {
         if(req.user.type == "doctor") {
             diets = await DietChart.find({doctorId: req.user.id});
         } else if(req.user.type == "patient") {
-            const patient = await Patient.findOne({patientId: req.user.patientId })
-            diets  = await DietChart.findOne({doctorId: {$in: patient.doctors }});
+            diets  = await DietChart.findOne({doctorId: {$in: req.user.doctors }});
         } else if(req.user.type == "admin") {
             diets = await DietChart.find();
         }
