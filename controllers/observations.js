@@ -4,7 +4,7 @@ const { getFormatDate } = require('../utils/common');
 
 module.exports.add = async (req, res) => {
     try {
-        const patient = await Patient.findOne({ patientId: req.user.patientId });
+        const patient = await Patient.findOne({ patientId: req.user.id });
         if(!patient) {
             return res.status(400).json({
                 success: false,

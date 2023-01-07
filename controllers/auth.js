@@ -139,6 +139,7 @@ module.exports.submitOtp = async (req, res) => {
               res.status(200).json({
                 success: true,
                 message: "Login successfull",
+                user: req.body.user,
                 token
               });
             }

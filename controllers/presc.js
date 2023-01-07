@@ -40,7 +40,7 @@ module.exports.getAll = async (req, res) => {
         let presc = []
 
         if(req.user.type == "patient") {
-            presc = await Presc.find({ patientId: req.user.patientId });
+            presc = await Presc.find({ patientId: req.user.id });
         } else if(req.user.type == "doctor") {
             presc = await Presc.find({doctors: req.user.id});
         } else {
@@ -79,7 +79,7 @@ module.exports.getBypatient = async (req, res) => {
 
 module.exports.getLatest = async (req, res) => {
     try {
-        const prescs  = await Presc.findOne({patientId: req.user.patientId}).sort({"_id": -1});
+        const prescs  = await Presc.findOne({patientId: req.user.id}).sort({"_id": -1});
         return res.status(200).json({
             success: true,
             message: "Prescriptions fetched successfully",

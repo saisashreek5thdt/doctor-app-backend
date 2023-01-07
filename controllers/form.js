@@ -58,7 +58,7 @@ module.exports.getAll = async (req, res) => {
 module.exports.submitForm = async (req, res) => {
     try {
 
-        const form  = await Form.findOne({_id: req.body.formId, patientId: req.user.patientId})
+        const form  = await Form.findOne({_id: req.body.formId, patientId: req.user.id})
 
         if(form) {
             for (let i = 0; i < form.questions.length; i++) {
