@@ -34,8 +34,7 @@ module.exports.addDietChart = async (req, res) => {
 
 module.exports.getLatest = async (req, res) => {
     try {
-        const patient = await Patient.findOne({patientId: req.user.id })
-        const diets  = await DietChart.findOne({doctorId: {$in: patient.doctors }}).sort({"_id": -1});
+        const diets  = await DietChart.findOne({doctorId: {$in: req.user.doctors }}).sort({"_id": -1});
         return res.status(200).json({
             success: true,
             message: "diet charts fetched successfully",

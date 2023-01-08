@@ -5,7 +5,7 @@ const DietChart = require('../models/DietChart')
 
 module.exports.patient = async (req, res) => {
     try {
-        const patient = await Patient.findOne({ patientId: req.user.id });
+        const patient = await Patient.findById(req.user.id);
         const forms = await Form.find({ patientId: req.user.id }).count();
         const diet_charts = await DietChart.find({ patientId: req.user.id }).count();
 
