@@ -51,7 +51,7 @@ module.exports.getAllPatients = async (req, res) => {
 
 module.exports.getPatient = async (req, res) => {
     try {
-        const patient = await Patient.findOne({doctorId: req.user.id, patientId: req.params.id});
+        const patient = await Patient.findOne({doctorId: req.user.id, _id: req.params.id});
         return res.status(200).json({
             success: true,
             message: "Successfully got the patient",
