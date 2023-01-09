@@ -42,7 +42,7 @@ module.exports.getAll = async (req, res) => {
         if(req.user.type == "patient") {
             presc = await Presc.find({ patientId: req.user.id });
         } else if(req.user.type == "doctor") {
-            presc = await Presc.find({doctors: req.user.id});
+            presc = await Presc.find({doctorId: req.user.id});
         } else {
             presc = await Presc.find();
         }
