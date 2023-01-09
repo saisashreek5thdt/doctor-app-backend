@@ -54,10 +54,10 @@ module.exports.getAll = async (req, res) => {
 
         let diets = [];
 
-        if(req.user.type == "doctor") {
+        if(req.user.type == "doctor") {ß
             diets = await DietChart.find({doctorId: req.user.id});
         } else if(req.user.type == "patient") {
-            diets  = await DietChart.findOne({doctorId: {$in: req.user.doctors }});
+            diets  = await DietChart.find({doctorId: {$in: req.user.doctors }});
         } else if(req.user.type == "admin") {
             diets = await DietChart.find();
         }
