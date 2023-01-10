@@ -34,7 +34,7 @@ module.exports.addDietChart = async (req, res) => {
 
 module.exports.getLatest = async (req, res) => {
     try {
-        const diets  = await DietChart.findOne({doctorId: {$in: req.user.doctors }}).sort({"_id": -1});
+        const diets  = await DietChart.findOne({doctorId: {$in: req.user.doctors }}).populate('doctorId', ['name', 'email']).sort({"_id": -1});
         return res.status(200).json({
             success: true,
             message: "diet charts fetched successfully",
@@ -54,12 +54,12 @@ module.exports.getAll = async (req, res) => {
 
         let diets = [];
 
-        if(req.user.type == "doctor") {ß
-            diets = await DietChart.find({doctorId: req.user.id});
+        if(req.user.type == "doctor") {
+            diets = await DietChart.find({doctorId: req.user.id}).populate('doctorId', ['name', 'email']);
         } else if(req.user.type == "patient") {
-            diets  = await DietChart.find({doctorId: {$in: req.user.doctors }});
+            diets  = await DietChart.find({doctorId: {$in: req.user.doctors }}).populate('doctorId', ['name', 'email']);
         } else if(req.user.type == "admin") {
-            diets = await DietChart.find();
+            diets = await DietChart.find().populate('doctorId', ['name', 'email']);
         }
 
         return res.status(200).json({

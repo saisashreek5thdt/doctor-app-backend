@@ -40,11 +40,11 @@ module.exports.getAll = async (req, res) => {
         let presc = []
 
         if(req.user.type == "patient") {
-            presc = await Presc.find({ patientId: req.user.id });
+            presc = await Presc.find({ patientId: req.user.id }).populate([{path:'doctorId',select: ['name', 'email'] },{ path: 'patientId', select: ['name', 'email']}]);
         } else if(req.user.type == "doctor") {
-            presc = await Presc.find({doctorId: req.user.id});
+            presc = await Presc.find({doctorId: req.user.id}).populate([{path:'doctorId',select: ['name', 'email'] },{ path: 'patientId', select: ['name', 'email']}]);
         } else {
-            presc = await Presc.find();
+            presc = await Presc.find().populate([{path:'doctorId',select: ['name', 'email'] },{ path: 'patientId', select: ['name', 'email']}]);
         }
         return res.status(200).json({
             success: true,
@@ -62,7 +62,7 @@ module.exports.getAll = async (req, res) => {
 
 module.exports.getBypatient = async (req, res) => {
     try {
-        const prescs  = await Presc.find({ doctorId: req.user.id, patientId: req.params.id})
+        const prescs  = await Presc.find({ doctorId: req.user.id, patientId: req.params.id}).populate([{path:'doctorId',select: ['name', 'email'] },{ path: 'patientId', select: ['name', 'email']}])
         return res.status(200).json({
             success: true,
             message: "Prescriptions fetched successfully",
@@ -79,7 +79,7 @@ module.exports.getBypatient = async (req, res) => {
 
 module.exports.getLatest = async (req, res) => {
     try {
-        const prescs  = await Presc.findOne({patientId: req.user.id}).sort({"_id": -1});
+        const prescs  = await Presc.findOne({patientId: req.user.id}).populate([{path:'doctorId',select: ['name', 'email'] },{ path: 'patientId', select: ['name', 'email']}]).sort({"_id": -1});
         return res.status(200).json({
             success: true,
             message: "Prescriptions fetched successfully",

@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 
 const FormSchema = new mongoose.Schema({
     doctorId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "doctor"
     },
     form_title: String,
     questions: [

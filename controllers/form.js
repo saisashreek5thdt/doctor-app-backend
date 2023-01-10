@@ -32,13 +32,13 @@ module.exports.getAll = async (req, res) => {
         console.log(req.user.type)
 
         if(req.user.type == "doctor") {
-            forms = await Form.find({doctorId: req.user.id});
+            forms = await Form.find({doctorId: req.user.id}).populate('doctorId', ['name', 'email']);
         } else if(req.user.type == "admin") {
-            forms = await Form.find();
+            forms = await Form.find().populate('doctorId', ['name', 'email']);
         } else if(req.user.type == "patient") {
             forms = await Form.find({
                 doctorId: {$in: req.user.doctors}
-            });
+            }).populate('doctorId', ['name', 'email']);
         }
 
         return res.status(200).json({
